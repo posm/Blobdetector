@@ -5,7 +5,7 @@
 0011     --22
 
 >>> input = '\xee\xee\x11\x11\xee\xee\x11\x11\x11\x11\xee\xee\x11\x11\xee\xee'
->>> detect(Image.fromstring('L', (4, 4), input))
+>>> detect(Image.frombytes('L', (4, 4), input))
 [(0, 0, 1, 1, 4), (2, 2, 3, 3, 4)]
 
 1100     11--
@@ -14,7 +14,7 @@
 0011     --22
 
 >>> input = '\xee\xee\x11\x11\xee\x11\x11\x11\xee\x11\xee\xee\x11\x11\xee\xee'
->>> detect(Image.fromstring('L', (4, 4), input))
+>>> detect(Image.frombytes('L', (4, 4), input))
 [(0, 0, 1, 2, 4), (2, 2, 3, 3, 4)]
 
 0100     -1--     -1--
@@ -23,7 +23,7 @@
 0011     --43     --22
 
 >>> input = '\x11\xee\x11\x11\xee\xee\x11\xee\xee\x11\x11\xee\x11\x11\xee\xee'
->>> detect(Image.fromstring('L', (4, 4), input))
+>>> detect(Image.frombytes('L', (4, 4), input))
 [(0, 0, 1, 2, 4), (2, 1, 3, 3, 4)]
 
 00000000     --------     --------
@@ -36,7 +36,7 @@
 00000000     --------     --------
 
 >>> input = '\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11\xee\xee\xee\x11\x11\x11\x11\xee\xee\xee\xee\xee\x11\x11\xee\xee\xee\xee\xee\xee\x11\x11\xee\xee\xee\xee\xee\xee\x11\x11\x11\xee\xee\xee\xee\xee\x11\x11\x11\xee\xee\xee\xee\x11\x11\x11\x11\x11\x11\x11\x11\x11\x11'
->>> detect(Image.fromstring('L', (8, 8), input))
+>>> detect(Image.frombytes('L', (8, 8), input))
 [(1, 1, 6, 6, 29)]
 """
 
@@ -54,7 +54,7 @@ def detect(i):
         Each blob is a five-element tuple: xmin, ymin, xmax, ymax, pixel count.
     """
     assert i.mode == 'L'
-    l, s = _blobs.detect(i.size[0], i.size[1], i.tostring())
+    l, s = _blobs.detect(i.size[0], i.size[1], i.tobytes())
     bounds = _expand(s)
     assert l == len(bounds)
     return bounds
